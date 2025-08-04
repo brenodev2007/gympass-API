@@ -1,0 +1,32 @@
+#App
+
+Gympass style App
+
+## RFs (Requesitos funcionais)
+
+- [] deve ser possível criar uma conta
+- [] deve ser possível fazer login
+- [] deve ser possível obter o perfil de um usuário logado
+- [] deve ser possível obter o número de check-ins realizados pelo usuário logado
+- [] deve ser possível o usuário obter seu histórico de check-ins
+- [] deve ser possível o usuário buscar academias próximas
+- [] deve ser possível o usuário buscar academias pelo nome
+- [] deve ser possível o usuário realizar check-in em uma academia
+- [] deve ser possível validar o check-in do usuário
+- [] deve ser possível cadastrar uma academia
+
+## RNs (Regras de Negócio )
+
+- [] o usuário não deve poder se cadastrar com o email duplicado
+- [] o usuário não pode fazer mais de 2 check-ins por dia
+- [] o usuário não pode fazer check-in se não estiver perto (100m) da academia
+- [] o check-in só pode ser validado até 20 minutos após criado
+- [] o check-in só pode ser validado por administradores
+- [] a academia só pode ser cadastrada por administradores
+
+## RNFs (Requesitos não funcionais)
+
+- [] A senha do usuário precisa estar criptografada
+- [] os dados da aplicação precisam estar persistidos em um banco PostgreSQL
+- [] Todas as listas de dados precisam estar páginas com 20 itens por páginas
+- [] o usuário deve ser indentificado por um JWT token
