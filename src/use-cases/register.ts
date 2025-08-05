@@ -2,7 +2,7 @@ import { hash } from "bcryptjs";
 import { prisma } from "../lib/prisma";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { UserRepository } from "../repositories/users-repository";
-import { UserAlreadyExist } from "@/errors/user-already-exist";
+import { UserAlreadyExist } from "@/use-cases/errors/user-already-exist";
 
 interface RegisterUseCaseParams {
   name: string;
