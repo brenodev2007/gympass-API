@@ -1,5 +1,5 @@
 import { prisma } from "../lib/prisma";
-import { Prisma } from "generated/prisma";
+import { Prisma, User } from "generated/prisma";
 import { UserRepository } from "./users-repository";
 
 export class PrismaUserRepository implements UserRepository {
@@ -10,6 +10,14 @@ export class PrismaUserRepository implements UserRepository {
       },
     });
     return user;
+  }
+
+  findById(id: string): Promise<User | null> {
+    return prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 
   async create(data: Prisma.UserCreateInput) {
