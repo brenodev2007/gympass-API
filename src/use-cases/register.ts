@@ -2,6 +2,7 @@ import { hash } from "bcryptjs";
 import { prisma } from "../lib/prisma";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { UserRepository } from "../repositories/users-repository";
+import { UserAlreadyExist } from "@/errors/user-already-exist";
 
 interface RegisterUseCaseParams {
   name: string;
@@ -22,7 +23,7 @@ export class RegisterUseCase {
     });
 
     if (withSameEmail) {
-      throw new Error("User already exists with this email");
+      throw new UserAlreadyExist();
     }
 
     // const prismaUserRepository = new PrismaUserRepository();

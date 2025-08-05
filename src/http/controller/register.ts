@@ -3,6 +3,7 @@ import { z } from "zod";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { RegisterUseCase } from "../../use-cases/register";
 import { PrismaUserRepository } from "../../repositories/prisma-user-repository";
+import { UserAlreadyExist } from "@/errors/user-already-exist";
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
   const registerBodySchema = z.object({
@@ -22,7 +23,16 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       password,
     });
   } catch (error) {
-    return reply.status(400).send({
+    if (error instanceof UserAlreadyExist) {
+      return reply.status(400).send({
+        message:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
+      });
+    }
+
+    return reply.status(500).send({
       message:
         error instanceof Error ? error.message : "An unexpected error occurred",
     });
