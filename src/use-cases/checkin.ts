@@ -1,10 +1,14 @@
 import { invalidCredencialsError } from "./errors/invalid-credencials";
 import { CheckIn } from "../../generated/prisma";
 import { CheckInsRepository } from "@/repositories/check-ins-repository";
+import { GymRepositories } from "@/repositories/gym-repositories";
+import { resourceNotExists } from "./errors/resource-not-exists";
 
 interface CheckInRequest {
   userId: string;
   gymId: string;
+  userLatitude: number;
+  userLongitude: number;
 }
 
 interface CheckInResponse {
@@ -12,9 +16,20 @@ interface CheckInResponse {
 }
 
 export class CheckInUseCase {
-  constructor(private checkInsRepository: CheckInsRepository) {}
+  constructor(
+    private checkInsRepository: CheckInsRepository,
+    private gymRepository: GymRepositories
+  ) {}
 
   async execute({ userId, gymId }: CheckInRequest): Promise<CheckInResponse> {
+    const gym = await this.gymRepository.findById(gymId);
+
+    if (!gym) {
+      throw new resourceNotExists();
+    }
+
+    //calcular a distância do gym e do user
+
     const checkInOnSameDay = await this.checkInsRepository.findByUserIdOnDate(
       userId,
       new Date()
