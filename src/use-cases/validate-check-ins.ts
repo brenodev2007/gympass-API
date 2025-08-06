@@ -4,6 +4,7 @@ import { CheckInsRepository } from "@/repositories/check-ins-repository";
 import { GymRepositories } from "@/repositories/gym-repositories";
 import { resourceNotExists } from "./errors/resource-not-exists";
 import { getDistanceBetweenCordinates } from "@/utils/get-distance-between-coordenates";
+import dayjs = require("dayjs");
 
 interface ValidateCheckInRequest {
   userId: string;
@@ -25,6 +26,11 @@ export class ValidateCheckInUseCase {
     if (!checkIn) {
       throw new resourceNotExists();
     }
+
+    const distanceInMinutesFromCheckInCreation = dayjs(new Date()).diff(
+      checkIn.createdAt,
+      "minutes"
+    );
 
     checkIn.validatedAt = new Date();
 
