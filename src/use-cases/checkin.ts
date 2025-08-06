@@ -15,6 +15,15 @@ export class CheckInUseCase {
   constructor(private checkInsRepository: CheckInsRepository) {}
 
   async execute({ userId, gymId }: CheckInRequest): Promise<CheckInResponse> {
+    const checkInOnSameDay = await this.checkInsRepository.findByUserIdOnDate(
+      userId,
+      new Date()
+    );
+
+    if (checkInOnSameDay) {
+      throw new Error("Você não pode realizar mais de um check-in por dia");
+    }
+
     const checkin = await this.checkInsRepository.create({
       user: {
         connect: { id: userId },
