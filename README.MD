@@ -28,5 +28,5 @@ Gympass style App
 
 - [x] A senha do usuário precisa estar criptografada
 - [x] os dados da aplicação precisam estar persistidos em um banco PostgreSQL
-- [] Todas as listas de dados precisam estar páginas com 20 itens por páginas
+- [x] Todas as listas de dados precisam estar páginas com 20 itens por páginas
 - [] o usuário deve ser indentificado por um JWT token
