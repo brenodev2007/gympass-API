@@ -3,6 +3,7 @@ import { CheckIn } from "../../generated/prisma";
 import { CheckInsRepository } from "@/repositories/check-ins-repository";
 import { GymRepositories } from "@/repositories/gym-repositories";
 import { resourceNotExists } from "./errors/resource-not-exists";
+import { getDistanceBetweenCordinates } from "@/utils/get-distance-between-coordenates";
 
 interface CheckInRequest {
   userId: string;
@@ -21,7 +22,12 @@ export class CheckInUseCase {
     private gymRepository: GymRepositories
   ) {}
 
-  async execute({ userId, gymId }: CheckInRequest): Promise<CheckInResponse> {
+  async execute({
+    userId,
+    gymId,
+    userLatitude,
+    userLongitude,
+  }: CheckInRequest): Promise<CheckInResponse> {
     const gym = await this.gymRepository.findById(gymId);
 
     if (!gym) {
@@ -29,6 +35,14 @@ export class CheckInUseCase {
     }
 
     //calcular a distância do gym e do user
+    const distance = getDistanceBetweenCordinates(
+      { latidute: userLatitude, longitude: userLongitude },
+      { latidute: gym.latitude.toNumber(), longitude: gym.longitude.toNumber() }
+    );
+
+    if (distance > 0.1) {
+      throw new Error("Você não pode fazer check-in a mais de 100m do local");
+    }
 
     const checkInOnSameDay = await this.checkInsRepository.findByUserIdOnDate(
       userId,
