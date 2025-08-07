@@ -5,9 +5,6 @@ import { User } from "../../generated/prisma";
 
 interface GetProfileRequest {
   userId: string;
-  nome: string;
-  email: string;
-  password: string;
 }
 
 interface GetProfileResponse {
