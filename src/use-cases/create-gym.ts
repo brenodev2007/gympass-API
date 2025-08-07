@@ -5,6 +5,7 @@ interface CreateGymUseCaseRequest {
   title: string;
   description?: string | null;
   phone: string | null;
+  password: string;
   latitude: number;
   longitude: number;
 }
